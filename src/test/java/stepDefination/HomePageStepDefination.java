@@ -1,49 +1,49 @@
 package stepDefination;
 
-import java.util.Iterator;
-import java.util.Set;
-
-import org.openqa.selenium.By;
+import java.io.IOException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
-
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
+
 import io.cucumber.java.en.When;
+import pageObjects.HomePage;
+import pageObjects.PageObjectManager;
 import utilities.PicoContainerUsage;
+/*Here we have used the conecpt of PageFactoryDesignPatterns
+ * Where we have eliminated of creating objects in StepDefination
+ * Instead we have used A separete class of PicoCOntainer which has dependency Injection
+ * If we have separate stepedefination and Logic also to be separated, so for this we have
+ * used DEPENDENCY INJECTION Where the variables of different stepdefinations are 
+ * grouped in one class and need to create constructor of that class and use those 
+ * instances in stepdefinations.*/
 
 public class HomePageStepDefination {
 
 	public WebDriver driver;
 	public String homePageProductName;
-	public String offersPageProductName;
-	PicoContainerUsage picoContainerUsage;
-	
+	public PicoContainerUsage picoContainerUsage;
+	public PageObjectManager pageObjectManager;
+
 	public HomePageStepDefination(PicoContainerUsage picoContainerUsage) {
 		this.picoContainerUsage = picoContainerUsage;
 	}
 
 	@Given("user is on homePage")
-	public void user_is_on_home_page() throws InterruptedException {
-		System.setProperty("webdriver.chrome.driver", "./Drivers/chromedriver.exe");
-		picoContainerUsage.driver = new ChromeDriver();
-		picoContainerUsage.driver.get("https://rahulshettyacademy.com/seleniumPractise/#/");
+	public void user_is_on_home_page() throws InterruptedException, IOException {
+		//picoContainerUsage.baseClass.driverManager();
 		Thread.sleep(2000);
 	}
 
-	@When("user searched product with {string} searched results should display and extract the actual name of product")
+	@When("^user searched product with (.+) searched results should display and extract the actual name of product$")
 	public void user_searched_product_with_searched_results_should_display_and_extract_the_actual_name_of_product(
 			String productName) throws InterruptedException {
-		picoContainerUsage.driver.findElement(By.xpath("//input[@class='search-keyword']")).sendKeys(productName);
-	Thread.sleep(2000);
-	
-	picoContainerUsage.homePageProductName=picoContainerUsage.driver.findElement(By.xpath("//div[@class='product-image']/following-sibling::h4")).getText().split("-")[0].trim();
-	System.out.println("Productname in HomePage = "+picoContainerUsage.homePageProductName);
-	Thread.sleep(3000);
+		
+		HomePage homePage = picoContainerUsage.pageObjectManager.getHomePage();
+		homePage.searchField(productName);
+		Thread.sleep(2000);
+		
+		picoContainerUsage.homePageProductName = homePage.getProductText();
+		System.out.println("Productname in HomePage = " + picoContainerUsage.homePageProductName);
+		
 	}
 
-	
-	
 }

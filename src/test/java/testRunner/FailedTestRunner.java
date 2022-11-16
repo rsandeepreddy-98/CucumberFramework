@@ -11,22 +11,21 @@ import io.cucumber.testng.CucumberOptions;
  * */
 @CucumberOptions(
 		
-		features = "Features",
+		features = "@target/failed_scenarios.txt",
 		glue = "stepDefination",
 		monochrome = true,
 		plugin = {"html:target/cucumber.html", "json:target/cucumber.json",
-				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
-				"rerun:target/failed_scenarios.txt"}
+				"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
 		
 		)
-public class TestRunner extends AbstractTestNGCucumberTests{
+public class FailedTestRunner extends AbstractTestNGCucumberTests{
 
 	
-	@Override
-
-	@DataProvider(parallel = true)
-	public Object[][] scenarios() {
-		return super.scenarios();
-	}
-	 
+	/*
+	 * @Override
+	 * 
+	 * @DataProvider(parallel = true) public Object[][] scenarios(){
+	 * 
+	 * return super.scenarios(); }
+	 */
 }
