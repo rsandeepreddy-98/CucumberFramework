@@ -31,9 +31,9 @@ public class OffersPageStepDefination {
 		picoContainerUsage.genericUtils.switchWindows();
 		offerPage.searchFieldElement(productName);
 		Thread.sleep(2000);
-		picoContainerUsage.offersPageProductName = offerPage.getOffersPageText();
+		offersPageProductName = offerPage.getOffersPageText();
 		Thread.sleep(2000);
-		System.out.println("OffersPageProductname = " + picoContainerUsage.offersPageProductName);
+		System.out.println("OffersPageProductname = " + offersPageProductName);
 
 		//picoContainerUsage.driver.switchTo().window(parentWindow);
 
@@ -41,7 +41,7 @@ public class OffersPageStepDefination {
 
 	@Then("verify  homPageProductname and offerPageProdutname")
 	public void verify_hom_page_productname_and_offer_page_produtname() {
-		Assert.assertEquals(picoContainerUsage.homePageProductName, picoContainerUsage.offersPageProductName);
+		Assert.assertEquals(picoContainerUsage.homePageProductName, offersPageProductName);
 	}
 	
 

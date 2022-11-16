@@ -23,6 +23,9 @@ public class HomePageStepDefination {
 	public PicoContainerUsage picoContainerUsage;
 	public PageObjectManager pageObjectManager;
 
+	/*We have created this Constructor as to share/get the variables from 
+	 * PicoContainer class--This Constructor should have parameter as DI class name
+	 * to use the values in this class.*/
 	public HomePageStepDefination(PicoContainerUsage picoContainerUsage) {
 		this.picoContainerUsage = picoContainerUsage;
 	}
@@ -36,6 +39,11 @@ public class HomePageStepDefination {
 	@When("^user searched product with (.+) searched results should display and extract the actual name of product$")
 	public void user_searched_product_with_searched_results_should_display_and_extract_the_actual_name_of_product(
 			String productName) throws InterruptedException {
+		/*Actually we need to create object for Homepage and call 
+		 * all the pageObject method to work on it. As we implemented Factory
+		 * Design pattern, using Dependency Injection we have used below line
+		 * to link for HomePage page object class as we used to get all the method
+		 * available in HomePage*/
 		
 		HomePage homePage = picoContainerUsage.pageObjectManager.getHomePage();
 		homePage.searchField(productName);
